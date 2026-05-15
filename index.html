@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#123b7a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Financeiro">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <title>Systema Financeiro Distrital</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="authView" class="auth-wrap">
+    <h1>🏦 Sistema Financeiro Distrital</h1>
+    <p>Insira as suas credenciais para aceder ao sistema.</p>
+
+    <label for="username">👤 Username</label>
+    <input id="username" type="text" autocomplete="off" placeholder="Digite o seu username">
+
+    <label for="password">🔒 Palavra-passe</label>
+    <input id="password" type="password" autocomplete="off" placeholder="Digite a sua palavra-passe">
+
+    <button id="btnLogin" onclick="login()">Iniciar sessão</button>
+
+    <div id="msg" class="msg"></div>
+  </div>
+
+  <div id="appView" class="wrap hidden">
+    <div class="topbar">
+      <div>
+        <h1>📊 Dashboard Financeiro</h1>
+        <p id="welcomeText" class="muted">Bem-vindo ao sistema.</p>
+      </div>
+      <div class="actions">
+        <button class="info" onclick="openDashboard()">🔄 Actualizar</button>
+        <button class="danger" onclick="logout()">🚪 Terminar sessão</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card"><div class="card-title">👤 Utilizador</div><div id="kpiUser" class="card-value">-</div></div>
+      <div class="card"><div class="card-title">🎯 Perfil</div><div id="kpiPerfil" class="card-value profile-value">-</div></div>
+      <div class="card"><div class="card-title">⛪ Igreja</div><div id="kpiIgreja" class="card-value">-</div></div>
+      <div class="card"><div class="card-title">🧮 Saldo Projectado</div><div id="kpiSaldo" class="card-value">0,00 MZN</div></div>
+    </div>
+
+    <div class="layout">
+      <div class="card">
+        <!-- Hamburger toggle (visible on mobile only) -->
+        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" aria-label="Abrir menu">
+          <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          Menu Principal
+        </button>
+        <h2 style="margin-bottom:10px;" class="desktop-only">📋 Menu Principal</h2>
+        <ul id="menuList" class="menu-list"></ul>
+      </div>
+
+      <div class="card">
+        <h2 id="contentTitle">Dashboard</h2>
+        <div id="contentArea" class="muted">A carregar...</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="config.js?v=17"></script>
+  <script src="app.js?v=17"></script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js')
+          .then(function(r){ console.log('SW ok', r.scope); })
+          .catch(function(e){ console.warn('SW falhou', e); });
+      });
+    }
+  </script>
+</body>
+</html>
